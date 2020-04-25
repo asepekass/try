@@ -74,9 +74,50 @@ Mohon Aktifkan Javascript!
 
 <button id="logout" class="btn btn-danger tog d-none">Logout</button>
 </div> 
+</br>
+Public key : <span id:"pubkey"></span>
+</br>
+Private key : <span id:"privkey"></span>
+</br>
+<button id="generate" class="btn btn-danger tog d-none">Generate Key</button>
+
 
 <script src="js/main.js" type="text/javascript"></script>
 </body>
-
+  <script>
+    //// EOS ////////////
+    var {
+	format,
+	api,
+	ecc,
+	json,
+	Fcbuffer
+    } = Eos.modules;
+    
+    chain = {
+	mainnet: 'f9f432b1851b5c179d2091a96f593aaed50ec7466b74f89301f957a83e56ce1f',
+	testnet: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+	sysnet: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f'
+    };
+    
+    /**
+       Other httpEndpoint's: https://www.eosdocs.io/resources/apiendpoints
+    */
+    eosconfig = {
+	///httpEndpoint: 'http://209.97.162.124:8800',
+	///chainId: chain.sysnet,
+	httpEndpoint: 'http://209.97.162.124:8080',
+	chainId: chain.mainnet,
+	broadcast: true,
+	keyProvider: "",
+	verbose: false,
+    };
   
+$("#generate").on("click", function() {
+ecc.randomKey().then(privateKey => {
+console.log('Private Key:\t', privateKey) // wif
+console.log('Public Key:\t', ecc.privateToPublic(privateKey)) // EOSkey...
+})
+});
+
 </html>
